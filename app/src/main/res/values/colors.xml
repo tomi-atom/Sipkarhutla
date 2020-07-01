@@ -3,4 +3,74 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    // Purple theme's colors
+    <color name="colorPrimary_purple">#A35BCD</color>
+    <color name="colorPrimaryDark_purple">#5D39BA</color>
+    <color name="colorAccent_purple">#C7A8D9</color>
+    <color name="cardHourAndPhoneTextColor_purple">#6A159B</color>
+
+    // Blue theme's colors
+    <color name="colorPrimary_blue">#45AAE9</color>
+    <color name="colorPrimaryDark_blue">#268DBA</color>
+    <color name="colorAccent_blue">#9FCCE0</color>
+    <color name="cardHourAndPhoneTextColor_blue">#1082B2</color>
+    <color name="cardHourAndPhoneHeaderTextColor_blue">#3997C0</color>
+
+    <color name="table_header_text">#CCFFFFFF</color>
+    <color name="table_data_row_even">#11C5CAE9</color>
+    <color name="table_data_row_odd">#11FBBE73</color>
+
+
+    // Green theme's colors
+    <color name="colorPrimary_green">#5AE323</color>
+    <color name="colorPrimaryDark_green">#3BC802</color>
+    <color name="colorAccent_green">#78F645</color>
+    <color name="cardHourAndPhoneTextColor_green">#000000</color>
+
+    // Neutral streets theme's colors
+    <color name="colorPrimary_neutral">#E8E5E0</color>
+    <color name="colorPrimaryDark_neutral">#E8E5E0</color>
+    <color name="colorAccent_neutral">#FFFFFF</color>
+
+    // Gray theme's colors
+    <color name="colorPrimary_gray">#EEF0EF</color>
+    <color name="colorPrimaryDark_gray">#696969</color>
+    <color name="colorAccent_gray">#9E9E9E</color>
+    <color name="cardHourAndPhoneTextColor_gray">#696969</color>
+
+    <color name="colorOrange">#ff7700</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#757575</color>
+    <color name="colorRow">#E5E6EC</color>
+
+    <color name="green">#67de05</color>
+    <color name="red">#f23737</color>
+
+    <color name="black">#000000</color>
+    <color name="base">#AAAAAA</color>
+    <color name="white">#FFFFFF</color>
+    <!--color untuk gradient tansition-->
+    <color name="indigo_500">#3f51b5</color>
+    <color name="blue_500">#2196f3</color>
+    <color name="cyan_500">#00bcd4</color>
+    <color name="Yellow">#FFFF00</color>
+    <color name="FloralWhite">#FFFAF0</color>
+    <color name="Coral">#FF7F50</color>
+    <color name="Salmon">#FA8072</color>
+    <color name="LightSkyBlue">#83a6bc</color>
+    <color name="SkyBlue">#87CEEB</color>
+    <color name="Aquamarine">#7FFFD4</color>
+    <color name="Aqua">#00FFFF</color>
+    <color name="Cyan">#00FFFF</color>
+    <color name="DeepSkyBlue">#00BFFF</color>
+    <color name="Green">#008000</color>
+
+    <!--colors for modern ui-->
+    <color name="whiteTextColor">#fff</color>
+    <color name="primaryTextColor">#00a5ff</color>
+    <color name="loginBkColor">#f0f0f0</color>
+
+    <!--colros for card-->
+    <color name="whiteCardColor">#fff</color>
 </resources>
