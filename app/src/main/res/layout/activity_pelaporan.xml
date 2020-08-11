@@ -153,8 +153,7 @@
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingTop="5dp"
-                                    >
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                                     <com.google.android.material.textfield.TextInputEditText
                                         android:layout_width="match_parent"
@@ -163,7 +162,7 @@
                                         android:layout_marginLeft="15dp"
                                         android:backgroundTint="@color/blue_500"
                                         android:hint="Keterangan"
-                                        android:inputType="text"
+                                        android:inputType="text|textMultiLine"
                                         android:letterSpacing="0.1"
                                         android:textColor="@color/colorPrimaryText"
                                         android:textColorHint="@color/colorPrimaryDark_gray"
@@ -195,7 +194,7 @@
                             android:layout_marginBottom="8dp"
                             android:background="@drawable/gb_selector"
                             android:gravity="center"
-                            android:text="Simpan Data"
+                            android:text="Kirim Laporan"
                             android:textStyle="bold" />
 
 
