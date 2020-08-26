@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     Button login;
     EditText Username,Password;
     String username,password;
-    String login_url = "http://gep-pol-ru.com/login.php";
+    String login_url = "http://sipkarhutla.com//login.php";
     SharedPrefManager sharedPrefManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class InitRetrofit {
     // URL Server API
-    public static String API_URL = "http://gep-pol-ru.com/";
+    public static String API_URL = "http://sipkarhutla.com/";
 
     public static Retrofit setInit() {
         return new Retrofit.Builder().baseUrl(API_URL)

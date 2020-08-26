@@ -40,11 +40,11 @@ class AdapterMasuk extends RecyclerView.Adapter<AdapterMasuk.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         // Set widget
         holder.tvJudul.setText(laporan.get(position).getNama());
-        holder.tvTglTerbit.setText(laporan.get(position).getNik());
+        holder.tvTglTerbit.setText(laporan.get(position).getTanggal());
 
         // Dapatkan url gambar
 
-        final String urlGambarBerita = "http://sipkarhutla.com/FOTO/" + laporan.get(position).getFoto();
+        final String urlGambarBerita = "http://sipkarhutla.com/foto/" + laporan.get(position).getFoto();
 
         // Set image ke widget dengna menggunakan Library Piccasso
         // krena imagenya dari internet
@@ -58,22 +58,7 @@ class AdapterMasuk extends RecyclerView.Adapter<AdapterMasuk.MyViewHolder> {
                 Intent varIntent = new Intent(context, MainActivity.class);
                 // sisipkan data ke intent
                 varIntent.putExtra("nama", laporan.get(position).getNama());
-                varIntent.putExtra("alias", laporan.get(position).getAlias());
-                varIntent.putExtra("nik", laporan.get(position).getNik());
-                varIntent.putExtra("tempatlahir", laporan.get(position).getTempatlahir());
-                varIntent.putExtra("tanggallahir", laporan.get(position).getTanggallahir());
-                varIntent.putExtra("suku", laporan.get(position).getSuku());
-                varIntent.putExtra("namaayah", laporan.get(position).getNamaayah());
-                varIntent.putExtra("namaibu", laporan.get(position).getNamaibu());
-                varIntent.putExtra("nohp", laporan.get(position).getNoHp());
-                varIntent.putExtra("alamatktp", laporan.get(position).getAlamatktp());
-                varIntent.putExtra("alamattinggal", laporan.get(position).getAlamattinggal());
-                varIntent.putExtra("pekerjaan", laporan.get(position).getPekerjaan());
-                varIntent.putExtra("ciriciri", laporan.get(position).getCiriciri());
-                varIntent.putExtra("jk", laporan.get(position).getJk());
-                varIntent.putExtra("agama", laporan.get(position).getAgama());
-                varIntent.putExtra("pendidikanterakhir", laporan.get(position).getPendidikanterakhir());
-                varIntent.putExtra("pembinaan", laporan.get(position).getPembinaan());
+
                 varIntent.putExtra("foto", urlGambarBerita);
 
                 // method startActivity cma bisa di pake di activity/fragment

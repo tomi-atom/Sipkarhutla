@@ -24,10 +24,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.sipkarhutla.base.MyApplication;
 import com.sipkarhutla.base.VolleyMultipartRequest;
@@ -239,7 +245,7 @@ public class PelaporanActivity extends AppCompatActivity {
 
                             new SweetAlertDialog(PelaporanActivity.this, SweetAlertDialog.ERROR_TYPE)
                                     .setTitleText("Terjadi Kesalahan..")
-                                    .setContentText("Upload Data Laporan Gagal !")
+                                    .setContentText("Upload Data Laporan Gagal ! \n"+message)
                                     .show();
                             //Toast.makeText(PelaporanActivity.this,"Upload Data Gagal\n"+message,Toast.LENGTH_SHORT).show();
 
@@ -262,7 +268,7 @@ public class PelaporanActivity extends AppCompatActivity {
                         }else {
                             new SweetAlertDialog(PelaporanActivity.this, SweetAlertDialog.ERROR_TYPE)
                                     .setTitleText("Terjadi Kesalahan..")
-                                    .setContentText("Upload Data Laporan Gagal !")
+                                    .setContentText("Upload Data Laporan Gagal ! \n"+message)
                                     .show();
                             // Toast.makeText(PelaporanActivity.this,"Terjadi Kesalahan\n"+message,Toast.LENGTH_SHORT).show();
 
@@ -272,7 +278,7 @@ public class PelaporanActivity extends AppCompatActivity {
                         Log.d(TAG, "JSON Error: " + e);
                         new SweetAlertDialog(PelaporanActivity.this, SweetAlertDialog.ERROR_TYPE)
                                 .setTitleText("Terjadi Kesalahan..")
-                                .setContentText("Upload Data Laporan Gagal !")
+                                .setContentText("Upload Data Laporan Gagal ! 1")
                                 .show();
                         //Toast.makeText(PelaporanActivity.this,"Jaringan Bermasalah \n Gagal Upload Data",Toast.LENGTH_SHORT).show();
 
@@ -287,8 +293,19 @@ public class PelaporanActivity extends AppCompatActivity {
                     Log.d(TAG, "Volley Error: " + error);
                     new SweetAlertDialog(PelaporanActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Terjadi Kesalahan..")
-                            .setContentText("Upload Data Laporan Gagal !")
+                            .setContentText("Upload Data Laporan Gagal ! 2")
                             .show();
+
+                    if (error instanceof NetworkError) {
+                    } else if (error instanceof ServerError) {
+                    } else if (error instanceof AuthFailureError) {
+                    } else if (error instanceof ParseError) {
+                    } else if (error instanceof NoConnectionError) {
+                    } else if (error instanceof TimeoutError) {
+                        Toast.makeText(PelaporanActivity.this,
+                                "Oops. Timeout error!"+error,
+                                Toast.LENGTH_LONG).show();
+                    }
                     //Toast.makeText(PelaporanActivity.this,"Jaringan Bermasalah \n Gagal Upload Data  Volley Error",Toast.LENGTH_SHORT).show();
 
                 }
@@ -297,7 +314,6 @@ public class PelaporanActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
                     String foto = getStringImage(bitmap1);
-                    params.put("idkaryawan","1");
                     params.put("nama",Nama);
                     params.put("no_hp",No_hp);
                     params.put("ket",Ket);
@@ -317,7 +333,7 @@ public class PelaporanActivity extends AppCompatActivity {
                 }
             };
 
-            multipartRequest.setRetryPolicy(new DefaultRetryPolicy(7000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            multipartRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             MyApplication.getInstance().addToRequestQueue(multipartRequest);
 
         }

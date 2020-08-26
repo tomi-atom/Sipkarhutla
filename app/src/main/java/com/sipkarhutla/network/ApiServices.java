@@ -12,7 +12,7 @@ import retrofit2.http.GET;
 public interface ApiServices {
 
     //@TIPEMETHOD("API_END_POINT")
-    @GET("tampil_masuk.php")
+    @GET("tampil_laporan.php")
     Call<ResponseLaporan> request_show_all_berita();
     @GET("tampil_selesai.php")
     Call<ResponseLaporan> request_show_all_pengemis();

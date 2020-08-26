@@ -1,10 +1,9 @@
 package com.sipkarhutla.response;
 
+import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class ResponseLaporan {
+public class ResponseLaporan{
 
 	@SerializedName("laporan")
 	private List<LaporanItem> laporan;
@@ -27,13 +26,4 @@ public class ResponseLaporan {
 	public boolean isStatus(){
 		return status;
 	}
-
-	@Override
- 	public String toString(){
-		return 
-			"ResponseLaporan{" +
-			"laporan = '" + laporan + '\'' +
-			",status = '" + status + '\'' + 
-			"}";
-		}
 }
