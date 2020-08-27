@@ -3,6 +3,7 @@ package com.sipkarhutla;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ public class LaporanMasukActivity extends AppCompatActivity {
     // Deklarasi Widget
     private RecyclerView recyclerView;
     AdapterMasuk adapter;
+    SwipeRefreshLayout swipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,16 @@ public class LaporanMasukActivity extends AppCompatActivity {
         // RecyclerView harus pakai Layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
+        swipeRefreshLayout = findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        swipeRefreshLayout.setRefreshing(true);
+                        recreate();
+                    }
+                }
+        );
         // Eksekusi method
         tampilData();
     }

@@ -79,34 +79,29 @@ public class LoginActivity extends AppCompatActivity {
                                         JSONArray jsonArray = new JSONArray(response);
                                         JSONObject jsonObject = jsonArray.getJSONObject(0);
                                         String code = jsonObject.getString("code");
+                                        String message = jsonObject.getString("message");
                                         if (code.equals("login_failed"))
                                         {
                                             new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE)
                                                     .setTitleText("Username Atau Password Salah")
-                                                    .setContentText("Login Gagal !")
+                                                    .setContentText("Login Gagal !"+message)
                                                     .show();
 
                                         }else {
                                             Intent intent = new Intent(LoginActivity.this,MenuActivity.class);
                                             Bundle bundle = new Bundle();
 
-                                            String username = jsonObject.getString("username");
+
                                             String id = jsonObject.getString("id");
                                             String nama = jsonObject.getString("nama");
-                                            String jabatan = jsonObject.getString("jabatan");
-                                            String instansi = jsonObject.getString("instansi");
 
                                             bundle.putString("username",username);
                                             bundle.putString("id",id);
                                             bundle.putString("nama",nama);
-                                            bundle.putString("jabatan",jabatan);
-                                            bundle.putString("instansi",instansi);
                                             intent.putExtras(bundle);
                                             sharedPrefManager.saveSPString(SharedPrefManager.SP_USERNAME, username);
                                             sharedPrefManager.saveSPString(SharedPrefManager.SP_NAMA, nama);
                                             sharedPrefManager.saveSPString(SharedPrefManager.SP_ID, id);
-                                            sharedPrefManager.saveSPString(SharedPrefManager.SP_JABATAN, jabatan);
-                                            sharedPrefManager.saveSPString(SharedPrefManager.SP_ISNTANSI, instansi);
                                             // Shared Pref ini berfungsi untuk menjadi trigger session login
                                             sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, true);
                                             startActivity(intent);

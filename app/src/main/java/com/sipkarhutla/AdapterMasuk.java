@@ -44,7 +44,7 @@ class AdapterMasuk extends RecyclerView.Adapter<AdapterMasuk.MyViewHolder> {
 
         // Dapatkan url gambar
 
-        final String urlGambarBerita = "http://sipkarhutla.com/foto/" + laporan.get(position).getFoto();
+        final String urlGambarBerita = "http://sipkarhutla.com/laporan/" + laporan.get(position).getFoto();
 
         // Set image ke widget dengna menggunakan Library Piccasso
         // krena imagenya dari internet

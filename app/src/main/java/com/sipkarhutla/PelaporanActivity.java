@@ -3,6 +3,7 @@ package com.sipkarhutla;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Activity;
@@ -10,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +37,9 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.sipkarhutla.base.MyApplication;
 import com.sipkarhutla.base.VolleyMultipartRequest;
 import com.squareup.picasso.Picasso;
@@ -56,26 +61,30 @@ import id.zelory.compressor.Compressor;
 
 public class PelaporanActivity extends AppCompatActivity {
 
-    String urlAddres="http://sipkarhutla.com/inputpelaporan.php";
-    EditText nama, no_hp,ket ;
-    String Nama,No_hp,Ket;
+    String urlAddres = "http://sipkarhutla.com/inputpelaporan.php";
+    EditText nama, no_hp, ket;
+    String Nama, No_hp, Ket;
+    String Lat = "";
+    String Lng = "";
     Button saveBtn;
     SharedPrefManager sharedPrefManager;
     AlertDialog.Builder builder;
     private Bitmap bitmap1;
 
 
-    private static final String TAG = PelaporanActivity .class.getSimpleName();
+    private static final String TAG = PelaporanActivity.class.getSimpleName();
     private ImageView mAvatar;
     private Uri mCropImageUri;
     private LinearLayout mContainer;
 
     private SessionManager mSessionManager;
+    private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pelaporan);
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         saveBtn = findViewById(R.id.saveBtn);
         nama = findViewById(R.id.nama);
         no_hp = findViewById(R.id.nohp);
@@ -110,9 +119,9 @@ public class PelaporanActivity extends AppCompatActivity {
         });
 
 
-
-
     }
+
+
     private void selectImage() {
         CropImage.startPickImageActivity(this);
     }
@@ -200,14 +209,14 @@ public class PelaporanActivity extends AppCompatActivity {
     }
 
 
-
-    public String getStringImage(Bitmap bmp){
+    public String getStringImage(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
     }
+
     /**
      * Upload image selected using volley
      */
@@ -216,15 +225,41 @@ public class PelaporanActivity extends AppCompatActivity {
         Nama = nama.getText().toString();
         No_hp = no_hp.getText().toString();
         Ket = ket.getText().toString();
+/*
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            Toast.makeText(PelaporanActivity.this,
+                                    "Lat : " + location.getLatitude() + " Long : " + location.getLongitude(),
+                                    Toast.LENGTH_LONG).show();
+                            Lat = String.valueOf(location.getLatitude());
+                            Lng = String.valueOf(location.getLongitude());
+                        }else
+                            new SweetAlertDialog(PelaporanActivity.this, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("GPS Tidak Aktif..")
+                                .setContentText("Tolong Aktifkan GPS pada perangkat anda! \n")
+                                .show();
+                    }
+                });
 
-
+*/
         if (Nama.equals("")  ||No_hp.equals("") || Ket.equals("")|| mAvatar == null )
         {
             new SweetAlertDialog(PelaporanActivity.this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("Data Belum Lengkap..")
-                    .setContentText("Tolong Lenkapi Data !")
+                    .setContentText("Tolong Lengkapi Data !")
                     .show();
-        }else {
+        }else if (Lat.equals("")  ||Lng.equals("")  )
+        {
+            new SweetAlertDialog(PelaporanActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("GPS Tidak Aktif..")
+                    .setContentText("Tolong Aktifkan GPS pada perangkat anda! 1")
+                    .show();
+        }
+        else {
 
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Upload Data...");
@@ -293,7 +328,7 @@ public class PelaporanActivity extends AppCompatActivity {
                     Log.d(TAG, "Volley Error: " + error);
                     new SweetAlertDialog(PelaporanActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Terjadi Kesalahan..")
-                            .setContentText("Upload Data Laporan Gagal ! 2")
+                            .setContentText("Upload Data Laporan Gagal ! 2"+error)
                             .show();
 
                     if (error instanceof NetworkError) {
