@@ -55,11 +55,15 @@ class AdapterMasuk extends RecyclerView.Adapter<AdapterMasuk.MyViewHolder> {
             @Override
             public void onClick(View view) {
                 // Mulai activity Detail
-                Intent varIntent = new Intent(context, MainActivity.class);
+                Intent varIntent = new Intent(context, DetailActivity.class);
                 // sisipkan data ke intent
+                varIntent.putExtra("tanggal", laporan.get(position).getTanggal());
                 varIntent.putExtra("nama", laporan.get(position).getNama());
-
+                varIntent.putExtra("hp", laporan.get(position).getHp());
+                varIntent.putExtra("keterangan", laporan.get(position).getKeterangan());
                 varIntent.putExtra("foto", urlGambarBerita);
+                varIntent.putExtra("lat", laporan.get(position).getLat());
+                varIntent.putExtra("lng", laporan.get(position).getLng());
 
                 // method startActivity cma bisa di pake di activity/fragment
                 // jadi harus masuk ke context dulu

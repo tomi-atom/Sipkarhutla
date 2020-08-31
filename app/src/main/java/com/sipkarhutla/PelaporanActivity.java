@@ -252,13 +252,15 @@ public class PelaporanActivity extends AppCompatActivity {
                     .setTitleText("Data Belum Lengkap..")
                     .setContentText("Tolong Lengkapi Data !")
                     .show();
-        }else if (Lat.equals("")  ||Lng.equals("")  )
+        }
+
+        /*else if (Lat.equals("")  ||Lng.equals("")  )
         {
             new SweetAlertDialog(PelaporanActivity.this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("GPS Tidak Aktif..")
                     .setContentText("Tolong Aktifkan GPS pada perangkat anda! 1")
                     .show();
-        }
+        }*/
         else {
 
             final ProgressDialog progressDialog = new ProgressDialog(this);

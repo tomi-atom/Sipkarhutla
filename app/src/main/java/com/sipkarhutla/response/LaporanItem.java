@@ -13,6 +13,9 @@ public class LaporanItem{
 	@SerializedName("foto")
 	private String foto;
 
+	@SerializedName("lng")
+	private String lng;
+
 	@SerializedName("hp")
 	private String hp;
 
@@ -21,6 +24,9 @@ public class LaporanItem{
 
 	@SerializedName("tanggal")
 	private String tanggal;
+
+	@SerializedName("lat")
+	private String lat;
 
 	public void setKeterangan(String keterangan){
 		this.keterangan = keterangan;
@@ -46,6 +52,14 @@ public class LaporanItem{
 		return foto;
 	}
 
+	public void setLng(String lng){
+		this.lng = lng;
+	}
+
+	public String getLng(){
+		return lng;
+	}
+
 	public void setHp(String hp){
 		this.hp = hp;
 	}
@@ -68,5 +82,13 @@ public class LaporanItem{
 
 	public String getTanggal(){
 		return tanggal;
+	}
+
+	public void setLat(String lat){
+		this.lat = lat;
+	}
+
+	public String getLat(){
+		return lat;
 	}
 }

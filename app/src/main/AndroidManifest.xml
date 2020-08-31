@@ -43,6 +43,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".OfflineMap"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 

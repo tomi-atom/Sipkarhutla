@@ -13,6 +13,10 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     buildTypes {
         release {
@@ -41,7 +45,8 @@ dependencies {
     }
     implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.41.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-locationlayer:0.7.2'
-
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 
     implementation 'com.mcxiaoke.volley:library:1.0.19'
     implementation 'com.google.code.gson:gson:2.8.3'
