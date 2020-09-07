@@ -1,6 +1,7 @@
 package com.sipkarhutla;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -8,6 +9,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -17,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -59,6 +62,10 @@ import java.util.Map;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import id.zelory.compressor.Compressor;
 
+import static android.Manifest.permission.READ_PHONE_NUMBERS;
+import static android.Manifest.permission.READ_PHONE_STATE;
+import static android.Manifest.permission.READ_SMS;
+
 public class PelaporanActivity extends AppCompatActivity {
 
     String urlAddres = "http://sipkarhutla.com/inputpelaporan.php";
@@ -79,6 +86,7 @@ public class PelaporanActivity extends AppCompatActivity {
 
     private SessionManager mSessionManager;
     private FusedLocationProviderClient fusedLocationClient;
+    @RequiresApi(api = Build.VERSION_CODES.M)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +109,16 @@ public class PelaporanActivity extends AppCompatActivity {
         if (!"hello".equalsIgnoreCase(mSessionManager.getUrl())) {
             //Picasso library to display images
             Picasso.get().load(mSessionManager.getUrl()).placeholder(R.drawable.photo).into(mAvatar);
+        }
+        if (ActivityCompat.checkSelfPermission(this, READ_SMS) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, READ_PHONE_NUMBERS) ==
+                        PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            TelephonyManager tMgr = (TelephonyManager)   this.getSystemService(Context.TELEPHONY_SERVICE);
+            String mPhoneNumber = tMgr.getLine1Number();
+            no_hp.setText(mPhoneNumber);
+            return;
+        } else {
         }
 
         cameraAction.setOnClickListener(new View.OnClickListener() {
