@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
@@ -27,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -77,7 +79,8 @@ public class PelaporanActivity extends AppCompatActivity {
     SharedPrefManager sharedPrefManager;
     AlertDialog.Builder builder;
     private Bitmap bitmap1;
-
+    private GpsTracker gpsTracker;
+    private TextView tvLatitude,tvLongitude;
 
     private static final String TAG = PelaporanActivity.class.getSimpleName();
     private ImageView mAvatar;
@@ -110,15 +113,24 @@ public class PelaporanActivity extends AppCompatActivity {
             //Picasso library to display images
             Picasso.get().load(mSessionManager.getUrl()).placeholder(R.drawable.photo).into(mAvatar);
         }
-        if (ActivityCompat.checkSelfPermission(this, READ_SMS) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, READ_PHONE_NUMBERS) ==
-                        PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-                READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-            TelephonyManager tMgr = (TelephonyManager)   this.getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, READ_SMS) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
             String mPhoneNumber = tMgr.getLine1Number();
             no_hp.setText(mPhoneNumber);
             return;
         } else {
+            requestPermission();
+
+        }
+        tvLatitude = (TextView)findViewById(R.id.latitude);
+        tvLongitude = (TextView)findViewById(R.id.longitude);
+
+        try {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
         cameraAction.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +150,23 @@ public class PelaporanActivity extends AppCompatActivity {
 
 
     }
+    public void getLocation(View view){
+        gpsTracker = new GpsTracker(PelaporanActivity.this);
+        if(gpsTracker.canGetLocation()){
+            double latitude = gpsTracker.getLatitude();
+            double longitude = gpsTracker.getLongitude();
+            tvLatitude.setText(String.valueOf(latitude));
+            tvLongitude.setText(String.valueOf(longitude));
+        }else{
+            gpsTracker.showSettingsAlert();
+        }
+    }
+    private void requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{READ_SMS, READ_PHONE_NUMBERS, READ_PHONE_STATE}, 100);
+        }
+    }
+
 
 
     private void selectImage() {
@@ -205,6 +234,16 @@ public class PelaporanActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
         }
+        switch (requestCode) {
+            case 100:
+                TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                String mPhoneNumber = tMgr.getLine1Number();
+                no_hp.setText(mPhoneNumber);
+                break;
+        }
     }
 
     /**
@@ -240,30 +279,14 @@ public class PelaporanActivity extends AppCompatActivity {
      */
 
     private void uploadData() {
+
         Nama = nama.getText().toString();
         No_hp = no_hp.getText().toString();
         Ket = ket.getText().toString();
-/*
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            Toast.makeText(PelaporanActivity.this,
-                                    "Lat : " + location.getLatitude() + " Long : " + location.getLongitude(),
-                                    Toast.LENGTH_LONG).show();
-                            Lat = String.valueOf(location.getLatitude());
-                            Lng = String.valueOf(location.getLongitude());
-                        }else
-                            new SweetAlertDialog(PelaporanActivity.this, SweetAlertDialog.ERROR_TYPE)
-                                .setTitleText("GPS Tidak Aktif..")
-                                .setContentText("Tolong Aktifkan GPS pada perangkat anda! \n")
-                                .show();
-                    }
-                });
+        Lat = tvLatitude.getText().toString();
+        Lng = tvLongitude.getText().toString();
 
-*/
+
         if (Nama.equals("")  ||No_hp.equals("") || Ket.equals("")|| mAvatar == null )
         {
             new SweetAlertDialog(PelaporanActivity.this, SweetAlertDialog.ERROR_TYPE)
@@ -272,13 +295,13 @@ public class PelaporanActivity extends AppCompatActivity {
                     .show();
         }
 
-        /*else if (Lat.equals("")  ||Lng.equals("")  )
+        else if (Lat.equals("")  ||Lng.equals("")  )
         {
             new SweetAlertDialog(PelaporanActivity.this, SweetAlertDialog.ERROR_TYPE)
-                    .setTitleText("GPS Tidak Aktif..")
-                    .setContentText("Tolong Aktifkan GPS pada perangkat anda! 1")
+                    .setTitleText("Lokasi Tidak Ada..")
+                    .setContentText("Tolong Tekan Cek Lokasi")
                     .show();
-        }*/
+        }
         else {
 
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -372,6 +395,8 @@ public class PelaporanActivity extends AppCompatActivity {
                     params.put("nama",Nama);
                     params.put("no_hp",No_hp);
                     params.put("ket",Ket);
+                    params.put("lat",Lat);
+                    params.put("lng",Lng);
                     params.put("foto",foto);
 
 
