@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sipkarhutla.response.LaporanItem;
+import com.sipkarhutla.response.SelesaiItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,8 +19,8 @@ import java.util.List;
 class AdapterSelesai extends RecyclerView.Adapter<AdapterSelesai.MyViewHolder> {
     // Buat Global variable untuk manampung context
     Context context;
-    List<LaporanItem> laporan;
-    public AdapterSelesai(Context context, List<LaporanItem> data_laporan) {
+    List<SelesaiItem> laporan;
+    public AdapterSelesai(Context context, List<SelesaiItem> data_laporan) {
         // Inisialisasi
         this.context = context;
         this.laporan = data_laporan;
@@ -38,13 +38,12 @@ class AdapterSelesai extends RecyclerView.Adapter<AdapterSelesai.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        // Set widget
         holder.tvJudul.setText(laporan.get(position).getNama());
         holder.tvTglTerbit.setText(laporan.get(position).getTanggal());
 
         // Dapatkan url gambar
 
-        final String urlGambarBerita = "http://gep-pol-ru.com/FOTO/" + laporan.get(position).getFoto();
+        final String urlGambarBerita = "http://sipkarhutla.com/laporan/" + laporan.get(position).getFoto();
 
         // Set image ke widget dengna menggunakan Library Piccasso
         // krena imagenya dari internet
@@ -55,10 +54,17 @@ class AdapterSelesai extends RecyclerView.Adapter<AdapterSelesai.MyViewHolder> {
             @Override
             public void onClick(View view) {
                 // Mulai activity Detail
-                Intent varIntent = new Intent(context, MainActivity.class);
+                Intent varIntent = new Intent(context, DetailActivity.class);
                 // sisipkan data ke intent
+                varIntent.putExtra("tanggal", laporan.get(position).getTanggal());
                 varIntent.putExtra("nama", laporan.get(position).getNama());
-
+                varIntent.putExtra("hp", laporan.get(position).getHp());
+                varIntent.putExtra("keterangan", laporan.get(position).getKeterangan());
+                varIntent.putExtra("foto", urlGambarBerita);
+                varIntent.putExtra("lat", laporan.get(position).getLat());
+                varIntent.putExtra("lng", laporan.get(position).getLng());
+                varIntent.putExtra("status", laporan.get(position).getStatus());
+                varIntent.putExtra("updateby", laporan.get(position).getUpdateby());
 
                 // method startActivity cma bisa di pake di activity/fragment
                 // jadi harus masuk ke context dulu

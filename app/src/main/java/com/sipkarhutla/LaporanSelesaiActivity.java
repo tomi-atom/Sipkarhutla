@@ -10,8 +10,8 @@ import android.widget.Toast;
 
 import com.sipkarhutla.network.ApiServices;
 import com.sipkarhutla.network.InitRetrofit;
-import com.sipkarhutla.response.LaporanItem;
-import com.sipkarhutla.response.ResponseLaporan;
+import com.sipkarhutla.response.SelesaiItem;
+import com.sipkarhutla.response.ResponseSelesai;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,21 +44,21 @@ public class LaporanSelesaiActivity extends AppCompatActivity {
         Map<String, String> data = new HashMap<>();
 
 
-        Call<ResponseLaporan> laporanCall = api.request_show_all_berita();
+        Call<ResponseSelesai> laporanCall = api.show_selesai();
         // Kirim request
-        laporanCall.enqueue(new Callback<ResponseLaporan>() {
+        laporanCall.enqueue(new Callback<ResponseSelesai>() {
             @Override
-            public void onResponse(Call<ResponseLaporan> call, Response<ResponseLaporan> response) {
+            public void onResponse(Call<ResponseSelesai> call, Response<ResponseSelesai> response) {
                 // Pasikan response Sukses
                 if (response.isSuccessful()){
                     Log.d("response api", response.body().toString());
                     // tampung data response body ke variable
-                    List<LaporanItem> data_pengemis = response.body().getLaporan();
+                    List<SelesaiItem> data = response.body().getSelesai();
                     boolean status = response.body().isStatus();
                     // Kalau response status nya = true
                     if (status){
                         // Buat Adapter untuk recycler view
-                        AdapterMasuk adapter = new AdapterMasuk(LaporanSelesaiActivity.this, data_pengemis);
+                        AdapterSelesai adapter = new AdapterSelesai(LaporanSelesaiActivity.this, data);
                         recyclerView.setAdapter(adapter);
                     } else {
                         // kalau tidak true
@@ -68,7 +68,7 @@ public class LaporanSelesaiActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseLaporan> call, Throwable t) {
+            public void onFailure(Call<ResponseSelesai> call, Throwable t) {
                 // print ke log jika Error
                 t.printStackTrace();
             }

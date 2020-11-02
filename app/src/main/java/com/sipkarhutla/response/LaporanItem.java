@@ -16,6 +16,9 @@ public class LaporanItem{
 	@SerializedName("lng")
 	private String lng;
 
+	@SerializedName("updateby")
+	private String updateby;
+
 	@SerializedName("hp")
 	private String hp;
 
@@ -27,6 +30,9 @@ public class LaporanItem{
 
 	@SerializedName("lat")
 	private String lat;
+
+	@SerializedName("status")
+	private String status;
 
 	public void setKeterangan(String keterangan){
 		this.keterangan = keterangan;
@@ -60,6 +66,14 @@ public class LaporanItem{
 		return lng;
 	}
 
+	public void setUpdateby(String updateby){
+		this.updateby = updateby;
+	}
+
+	public String getUpdateby(){
+		return updateby;
+	}
+
 	public void setHp(String hp){
 		this.hp = hp;
 	}
@@ -90,5 +104,13 @@ public class LaporanItem{
 
 	public String getLat(){
 		return lat;
+	}
+
+	public void setStatus(String status){
+		this.status = status;
+	}
+
+	public String getStatus(){
+		return status;
 	}
 }

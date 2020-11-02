@@ -57,6 +57,7 @@ class AdapterMasuk extends RecyclerView.Adapter<AdapterMasuk.MyViewHolder> {
                 // Mulai activity Detail
                 Intent varIntent = new Intent(context, DetailActivity.class);
                 // sisipkan data ke intent
+                varIntent.putExtra("id", laporan.get(position).getId());
                 varIntent.putExtra("tanggal", laporan.get(position).getTanggal());
                 varIntent.putExtra("nama", laporan.get(position).getNama());
                 varIntent.putExtra("hp", laporan.get(position).getHp());
@@ -64,6 +65,8 @@ class AdapterMasuk extends RecyclerView.Adapter<AdapterMasuk.MyViewHolder> {
                 varIntent.putExtra("foto", urlGambarBerita);
                 varIntent.putExtra("lat", laporan.get(position).getLat());
                 varIntent.putExtra("lng", laporan.get(position).getLng());
+                varIntent.putExtra("status", laporan.get(position).getStatus());
+                varIntent.putExtra("updateby", laporan.get(position).getUpdateby());
 
                 // method startActivity cma bisa di pake di activity/fragment
                 // jadi harus masuk ke context dulu
